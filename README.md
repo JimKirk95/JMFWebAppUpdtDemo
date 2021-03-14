@@ -21,9 +21,9 @@ Além do Nickname e da senha do novo jogador, o "_Caller_" (aplicativo ou págin
 
 Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
 
-Fazer um 'POST' para: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
+Fazer um `POST` para: `https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer`
 
-Com o seguinte 'JSON body':
+Com o seguinte `JSON body`:
 ```
 {
     "CallerID": "JMF",
