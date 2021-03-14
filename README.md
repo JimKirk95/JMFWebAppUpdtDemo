@@ -21,7 +21,7 @@ Além do Nickname e da senha do novo jogador, o "_Caller_" (aplicativo ou págin
 
 Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
 
-Fazer um `POST` para: `https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer`
+Enviar um `POST` para: `https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer`
 
 Com o seguinte `JSON body`:
 ```
@@ -33,16 +33,20 @@ Com o seguinte `JSON body`:
 }
 
 ```
+### Chamada `DELETE` para exclusão de um jogador:
+Além do Nickname e da senha do jogador, o "_Caller_" (aplicativo ou página web) deve informar seu ID e sua senha, e ainda um ID e senha adicionais para Exclusão.
+Além disso o `id` do `DELETE` deve ser `42`, ou a API vai recursar a chamada.
+Para testes pode usar "JMF" e "JMF", e "DJMF" e "DJMF", como no exemplo a seguir.
 
+Enviar um `DELETE` para: `https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42`
 
-Excluindo um jogador:
-DELETE: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
+Com o seguinte `JSON body`: 
 ```
 {
     "CallerID": "JMF",
     "CallerPW": "JMF",
-    "Nickname": "Rosana",
-    "Password": "Senha",
+    "Nickname": "Github",
+    "Password": "JimKirk95",
     "DeleteID": "DJMF",
     "DeletePW": "DJMF"
 }
