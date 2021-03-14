@@ -20,10 +20,23 @@ namespace JMFWebAppUpdt.Database
             using (SqlConnection connection = new SqlConnection(ConnectionString)) //Cria conexão com o DB
             {
                 SqlDataReader dr=null;
-                SqlCommand command = new SqlCommand($"select NICK from AppUsers where Nick = '{Nick}'", connection); //Check if nick exist
+                SqlCommand command = new SqlCommand($"select max(id) from AppUsers", connection); //Check if nick exist
                 try
                 {
                     command.Connection.Open(); //Oppen Connection to the database
+                    dr = command.ExecuteReader();
+                    if (dr.HasRows) //Found info
+                    {
+                        dr.Read();
+                        int id = (int)dr[0]; //max id
+                        if (id > int.MaxValue - 10)
+                        {
+                            dr.Close();
+                            return "Desculpe, número máximo de usuáris atingido. Por favor entre em contato com o administrador.";
+                        }
+                    }
+                    dr.Close(); //Empty table?
+                    command = new SqlCommand($"select NICK from AppUsers where Nick = '{Nick}'", connection); //Check if nick exist
                     dr = command.ExecuteReader();
                     if (dr.HasRows) //Found info
                     { //OK, deveria ter feito com um username, ou e-mail único e nick repetido, fica pra próxima
@@ -81,13 +94,6 @@ namespace JMFWebAppUpdt.Database
             }
         }
 
-
-
-
-
-
-
-
         public static string UpdatePlayerStats(string Nick, string Pass, int[] Scores)
         {
             SetConnectionString();
@@ -109,10 +115,16 @@ namespace JMFWebAppUpdt.Database
                         dr = command.ExecuteReader();
                         dr.Read();
                         for (int i = 0; i < PS.Length; i++)
-                        {                            
-                            PS[i] = (i < Scores.Length) ? (int)dr[i + 1] + Scores[i] : (int)dr[i + 1];
+                        {
                             if (i < Scores.Length)
+                            { //Os Scores vão saturar em int.MaxValue, sem overflow
+                                PS[i] = Scores[i] < (int.MaxValue - (int)dr[i + 1]) ? (int)dr[i + 1] + Scores[i] : int.MaxValue;
                                 Scores[i] = PS[i];
+                            }
+                            else
+                            {
+                                PS[i] = (int)dr[i + 1];
+                            }
                         }
                         dr.Close();
                         command = new SqlCommand($"UPDATE AppUsers SET TOTGAMES = {PS[0]}, TOTWINS = {PS[1]}, TOTDRAW = {PS[2]}, WGAMES = {PS[3]}, WWINS = {PS[4]}, WDRAW = { PS[5]} WHERE ID = '{id}'", connection);

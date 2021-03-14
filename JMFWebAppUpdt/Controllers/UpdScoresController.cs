@@ -59,17 +59,17 @@ namespace JMFWebAppUpdt.Controllers
                 DBResponse = "Dados inválidos, Nick e senha não podem estar vazios";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
             }
-            if ((!player.CallerID.Equals("JMF")) || (!player.CallerPW.Equals("JMF")))
-            {
-                DBResponse = "Credenciais inválidas, você não pode atualizar o status";
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
-            }
             int NScores = Math.Min(6, player.NewStats.Count);
             int[] NewScores = new int[NScores];
             int total = player.NewStats[0];
             int parcial = 0;
             for (int i = 0; i < NewScores.Length; i++)
             {
+                if (player.NewStats[i] < 0)
+                {
+                    DBResponse = "Não são permitidos dados negativos.";
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
+                }
                 NewScores[i] = player.NewStats[i];
                 if (i % 3 != 0)
                 {
@@ -97,6 +97,16 @@ namespace JMFWebAppUpdt.Controllers
             if (parcial > total)
             {
                 DBResponse = "Dados parciais maiores que o total.";
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
+            }
+            //Só pra evitar que qualquer um atualize os dados, fiz um ID/Senha
+            //Inicialmente as variáveis de ambiente estão setadas para JMF e JMF
+            //Podia ter usado credenciais deferentes para create e update...
+            string CallerPW = Environment.GetEnvironmentVariable("CPW");
+            string CallerID = Environment.GetEnvironmentVariable("CID");
+            if ((!player.CallerID.Equals(CallerID)) || (!player.CallerPW.Equals(CallerPW)))
+            {
+                DBResponse = "Credenciais inválidas, você não pode atualizar o status";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
             }
             DBResponse = Database.UpdateDB.UpdatePlayerStats(player.Nickname, player.Password, NewScores);
@@ -147,7 +157,13 @@ namespace JMFWebAppUpdt.Controllers
                 DBResponse = "Dados inválidos, Nick e senha não podem estar vazios";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
             }
-            if ((!dp.CallerID.Equals("JMF")) || (!dp.CallerPW.Equals("JMF")) || (!dp.DeleteID.Equals("DJMF")) || (!dp.DeletePW.Equals("DJMF")))
+            //Para o delete tem um ID/Senha adicional
+            //Inicialmente as variáveis de ambiente estão setadas para JMF, JMF, DJMF e DJMF
+            string CallerPW = Environment.GetEnvironmentVariable("CPW");
+            string CallerID = Environment.GetEnvironmentVariable("CID");
+            string DeletePW = Environment.GetEnvironmentVariable("DPW");
+            string DeleteID = Environment.GetEnvironmentVariable("DID");
+            if ((!dp.CallerID.Equals(CallerID)) || (!dp.CallerPW.Equals(CallerPW)) || (!dp.DeleteID.Equals(DeleteID)) || (!dp.DeletePW.Equals(DeletePW)))
             {
                 DBResponse = "Credenciais inválidas, você não pode apagar o jogador";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
