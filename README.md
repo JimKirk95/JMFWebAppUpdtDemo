@@ -35,7 +35,9 @@ Com o seguinte `JSON body`:
 ```
 ### Chamada `DELETE` para exclusão de um jogador:
 Além do Nickname e da senha do jogador, o "_Caller_" (aplicativo ou página web) deve informar seu ID e sua senha, e ainda um ID e senha adicionais para Exclusão.
+
 Além disso o `id` do `DELETE` deve ser `42`, ou a API vai recursar a chamada.
+
 Para testes pode usar "JMF" e "JMF", e "DJMF" e "DJMF", como no exemplo a seguir.
 
 Enviar um `DELETE` para: `https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42`
@@ -52,28 +54,33 @@ Com o seguinte `JSON body`:
 }
 ```
 
-Atualização de um jogador:
-PUT: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
+### Chamada `PUT` para atualização dos dados de um jogador:
+Além do Nickname e da senha do jogador, o "_Caller_" (aplicativo ou página web) deve informar seu ID e sua senha.
 
+Além disso o `id` do `PUT` deve ser `42`, ou a API vai recursar a chamada.
+
+Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
+
+Enviar um `PUT` para: `https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42`
+
+Com o seguinte `JSON body`:
 ```
 {
     "CallerID": "JMF",
     "CallerPW": "JMF",
-    "Nickname": "Rosana",
-    "Password": "Senha",
+    "Nickname": "Github",
+    "Password": "JimKirk95",
         "NewStats": [
-        10,
-        5,
-        3,
-        10,
-        5,
-        3
+        4,
+        2,
+        1,
+        2,
+        1
     ]
 }
 ```
 
-
-Obs: para consultar as informações de um jogador, use o PUT passando seis 0s em NewStats.
+Obs: para consultar as informações de um jogador, use o `PUT` passando seis `0`s em `NewStats`.
 
 ---
 Esta API faz inserções, atualizações e remoções da base de dados. Uma outra API é responsável por consultas públicas:
