@@ -10,7 +10,7 @@ namespace JMFWebAppUpdt.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "JMF Upd API";
 
             return View();
         }

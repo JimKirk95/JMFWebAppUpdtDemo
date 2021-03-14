@@ -6,7 +6,7 @@
 @model Collection<ApiDescription>
 
 @{
-    ViewBag.Title = "JMF ASP.NET Web API Help Page";
+    ViewBag.Title = "JMF Documentação da Web API";
 
     // Group APIs by controller
     ILookup<HttpControllerDescriptor, ApiDescription> apiGroups = Model.ToLookup(api => api.ActionDescriptor.ControllerDescriptor);
@@ -25,7 +25,11 @@
         <div class="content-wrapper">
             <h2>Introdução</h2>
             <p>
-                Essas APIs são para uso de aplicativos para criação e atualização de players.
+                Essas APIs são para uso de aplicativos para criação, atualização e exclusão de jogadores.
+            </p>
+            <p>
+                Para acesso ao POST e ao PUT usar: JMF e JMF como CallerID e CallerPW. Para o DELETE usar adicionalmente DJMF e DJMF como DeleteID e DeletePW.
+                Para PUT e DELETE usar ainda id = 42. Sem essas informações, a API retornará um erro.
             </p>
         </div>
     </section>
