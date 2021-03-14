@@ -42,7 +42,8 @@ namespace JMFWebAppUpdt.Controllers
             }
             //Só pra evitar que qualquer um crie novas usuários, fiz um ID/Senha hardcoded
             //Se comentar o próximo if, qualquer coisa vai passar... senão é só passar JMF e JMF
-            if ((!player.CallerID.Equals("JMF")) || (!player.CallerPW.Equals("JMF")))
+            string CallerPW = Environment.GetEnvironmentVariable(player.CallerID);
+            if ((CallerPW != null ) || (!player.CallerPW.Equals(CallerPW)))
             {   //Podia pegar do ambiente também... na próxima vou fazer isso, usar variáveis do ambiente
                 DBResponse = "Credenciais inválidas, você não pode criar novos usuários";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
@@ -50,6 +51,11 @@ namespace JMFWebAppUpdt.Controllers
             if ((player.Nickname.Length == 0) || (player.Password.Length == 0))
             {
                 DBResponse = "Dados inválidos, Nick e senha não podem estar vazios";
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
+            }
+            if ((player.Nickname.Length > 20) || (player.Password.Length > 20))
+            {
+                DBResponse = "Sinto muito, para testes, o Nick e a senha estão limitados a 20 caracteres";
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, DBResponse);
             }
             DBResponse = Database.UpdateDB.CreateNewPlayer(player.Nickname, player.Password);
