@@ -14,17 +14,22 @@ Uma versão está hospedada no Serviço de Aplicativos Azure, com acesso a uma b
 Documentação da API: https://jmfwebupdt2021.azurewebsites.net/Help
 
 ---
+## Chamadas para a API:
 
-## Chamada `POST` para criação de novo jogador:
-Além do Nickname e da senha do novo jogador, o "Caller" (aplicativo ou página web) deve informar seu ID e sua senha. Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
-Fazer um POST para: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
-Com o seguinte body JSON:
+### Chamada `POST` para criação de novo jogador:
+Além do Nickname e da senha do novo jogador, o "_Caller_" (aplicativo ou página web) deve informar seu ID e sua senha.
+
+Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
+
+Fazer um 'POST' para: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
+
+Com o seguinte 'JSON body':
 ```
 {
     "CallerID": "JMF",
     "CallerPW": "JMF",
-    "Nickname": "Novo Nick",
-    "Password": "Nova Senha"
+    "Nickname": "Github",
+    "Password": "JimKirk95"
 }
 
 ```
