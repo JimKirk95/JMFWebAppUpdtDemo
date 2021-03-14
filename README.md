@@ -10,16 +10,16 @@
 
 ## Web API desenvolvida em C# com acesso de inclusão, atualização e exclusão a SQL Server 
 Uma versão está hospedada no Serviço de Aplicativos Azure, com acesso a uma base de dados SQL Server hospedada em Máquina Virtual do Azure: https://jmfwebupdt2021.azurewebsites.net/
+
 Documentação da API: https://jmfwebupdt2021.azurewebsites.net/Help
 
 ---
 
-## Chamadas `GET` da API:
-Jogadores com mais vitórias no total 🥇🥈🥉 ([experimente aqui](https://jmfwebapi2021.azurewebsites.net/API/TopWinners "GET TopWinners")):
+## Chamada `POST` para criação de novo jogador:
+Além do Nickname e da senha do novo jogador, o "Caller" (aplicativo ou página web) deve informar seu ID e sua senha. Para testes pode usar "JMF" e "JMF", como no exemplo a seguir.
+Fazer um POST para: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
+Com o seguinte body JSON:
 ```
-https://jmfwebapi2021.azurewebsites.net/API/TopWinners
-Criação de novo jogador:
-POST: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
 {
     "CallerID": "JMF",
     "CallerPW": "JMF",
@@ -27,8 +27,26 @@ POST: https://jmfwebupdt2021.azurewebsites.net/API/NewPlayer
     "Password": "Nova Senha"
 }
 
+```
+
+
+Excluindo um jogador:
+DELETE: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
+```
+{
+    "CallerID": "JMF",
+    "CallerPW": "JMF",
+    "Nickname": "Rosana",
+    "Password": "Senha",
+    "DeleteID": "DJMF",
+    "DeletePW": "DJMF"
+}
+```
+
 Atualização de um jogador:
 PUT: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
+
+```
 {
     "CallerID": "JMF",
     "CallerPW": "JMF",
@@ -43,39 +61,8 @@ PUT: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
         3
     ]
 }
+```
 
-Excluindo um jogador:
-DELETE: https://jmfwebupdt2021.azurewebsites.net/API/UpdScores/42
-{
-    "CallerID": "JMF",
-    "CallerPW": "JMF",
-    "Nickname": "Rosana",
-    "Password": "Senha",
-    "DeleteID": "DJMF",
-    "DeletePW": "DJMF"
-}
-
-
-
-```
-Jogadores com mais jogos no total ([experimente aqui](https://jmfwebapi2021.azurewebsites.net/API/TopPlayers "GET TopPlayers")): 
-```
-https://jmfwebapi2021.azurewebsites.net/API/TopPlayers
-```
-Jogadores com mais vitórias na semana 🥇🥈🥉 ([experimente aqui](https://jmfwebapi2021.azurewebsites.net/API/WeekWinners "GET WeekWinners")):
-```
-https://jmfwebapi2021.azurewebsites.net/API/WeekWinners
-```
-Jogadores com mais jogos na semana ([experimente aqui](https://jmfwebapi2021.azurewebsites.net/API/WeekPlayers "GET WeekPlayers")):
-```
-https://jmfwebapi2021.azurewebsites.net/API/WeekPlayers
-```
-Passando um número de 1 a 3 em qualquer uma dessas chamadas, apenas o jogador nessa colocação é retornado.
-Por exemplo ([experimente aqui](https://jmfwebapi2021.azurewebsites.net/API/WeekWinners/2 "GET 2nd WeekWinner")):
-```
-https://jmfwebapi2021.azurewebsites.net/API/WeekWinners/2
-```
-Traz o segundo jogador 🥈 com mais vitórias na semana.
 
 Obs: para consultar as informações de um jogador, use o PUT passando seis 0s em NewStats.
 
